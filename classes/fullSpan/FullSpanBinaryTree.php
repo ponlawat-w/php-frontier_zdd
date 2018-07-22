@@ -15,6 +15,7 @@ class FullSpanBinaryTree {
     private $TerminalTrue;
 
     /**
+     * Constructor
      * @param Graph $graph
      * @param int $origin
      * @param int $destination
@@ -29,6 +30,7 @@ class FullSpanBinaryTree {
     }
 
     /**
+     * Generate binary decision tree
      * @return BinaryTree
      */
     public function GenerateTree() {
@@ -45,6 +47,7 @@ class FullSpanBinaryTree {
     }
 
     /**
+     * Recursively traverse on current node
      * @param BinaryNode $node
      * @param int $index
      * @param Edge[] $path
@@ -73,10 +76,12 @@ class FullSpanBinaryTree {
     }
 
     /**
+     * Check if given edge set performs a valid path that connects origin to destination
      * @param Edge[] $path
      * @return bool
      */
     private function ValidatePath($path) {
+        //TODO: Loop path is not being checked
         for ($v = 0; $v < $this->Graph->Vertices; $v++) {
             if (($v == $this->Origin || $v == $this->Destination) && Graph::GetDegree($v, $path) != 1) {
                 return false;

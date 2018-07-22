@@ -74,20 +74,4 @@ class Edge {
 
         return false;
     }
-
-    /**
-     * @param int $vertex
-     * @param Edge[] $edges
-     * @return Edge[]
-     */
-    public static function WhichConnects($vertex, $edges) {
-        $connectEdges = [];
-        foreach ($edges as $edge) {
-            if ($edge->Connects($vertex)) {
-                $connectEdges[] = $edge;
-            }
-        }
-
-        return $connectEdges;
-    }
 }
