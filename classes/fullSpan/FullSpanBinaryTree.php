@@ -44,6 +44,12 @@ class FullSpanBinaryTree {
         return $tree;
     }
 
+    /**
+     * @param BinaryNode $node
+     * @param int $index
+     * @param Edge[] $path
+     * @return BinaryNode
+     */
     private function Traverse($node, $index, $path = []) {
         $currentEdge = $this->Graph->Edges[$index];
 
@@ -66,6 +72,10 @@ class FullSpanBinaryTree {
         return $node;
     }
 
+    /**
+     * @param Edge[] $path
+     * @return bool
+     */
     private function ValidatePath($path) {
         for ($v = 0; $v < $this->Graph->Vertices; $v++) {
             if (($v == $this->Origin || $v == $this->Destination) && Graph::GetDegree($v, $path) != 1) {
