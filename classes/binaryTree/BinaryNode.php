@@ -45,6 +45,26 @@ class BinaryNode {
     }
 
     /**
+     * @param 1|0 $whichChild
+     * @return BinaryNode
+     */
+    public function GetChild($whichChild) {
+        return $whichChild ? $this->GetTrueChild() : $this->GetFalseChild();
+    }
+
+    /**
+     * @param 1|0 $whichChild
+     * @param BinaryNode $childNode
+     */
+    public function SetChild($whichChild, $childNode) {
+        if ($whichChild) {
+            $this->SetTrueChild($childNode);
+        } else {
+            $this->SetFalseChild($childNode);
+        }
+    }
+
+    /**
      * @param array[] &$paths
      * @param array &$temp
      */

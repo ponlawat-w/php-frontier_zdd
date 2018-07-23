@@ -1,1 +1,3 @@
 phpunit.phar
+.idea/*
+.vscode/*

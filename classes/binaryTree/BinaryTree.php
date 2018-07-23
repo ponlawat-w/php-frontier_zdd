@@ -15,6 +15,10 @@ class BinaryTree {
      * @return array[]
      */
     public function GetPaths() {
+        if (!$this->RootNode) {
+            return [];
+        }
+
         $paths = [];
         $this->RootNode->RecursivePath($paths);
 

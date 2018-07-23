@@ -10,3 +10,7 @@ require_once(__DIR__ . '/classes/graph/Grid.php');
 require_once(__DIR__ . '/classes/fullSpan/FullSpanBinaryTree.php');
 
 require_once(__DIR__ . '/classes/simpleZdd/SimpleZdd.php');
+
+require_once(__DIR__ . '/classes/frontierZdd/FrontierZdd.php');
+require_once(__DIR__ . '/classes/frontierZdd/FZddTree.php');
+require_once(__DIR__ . '/classes/frontierZdd/FZddNode.php');

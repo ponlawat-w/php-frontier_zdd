@@ -120,24 +120,6 @@ class SimpleZdd {
     }
 
     /**
-     * Combine components of vertices on following edge
-     * @param int[] $components
-     * @param Edge $edge
-     */
-    private static function CombineComponents(&$components, $edge) {
-        $vertices = $edge->GetVertices();
-        $minComponentVertex = $components[$vertices[0]] < $components[$vertices[1]] ? 0 : 1;
-        $minComponent = $components[$vertices[$minComponentVertex]];
-        $maxComponent = $components[$vertices[$minComponentVertex ? 0 : 1]];
-
-        for ($c = 0; $c < count($components); $c++) {
-            if ($components[$c] == $maxComponent) {
-                $components[$c] = $minComponent;
-            }
-        }
-    }
-
-    /**
      * Check if given edge causes loop to current component values
      * @param int[] $components
      * @param Edge $newEdge
@@ -233,5 +215,23 @@ class SimpleZdd {
      */
     private function IsOriginDestination($vertex) {
         return ($vertex == $this->Origin || $vertex == $this->Destination);
+    }
+
+    /**
+     * Combine components of vertices on following edge
+     * @param int[] $components
+     * @param Edge $edge
+     */
+    private static function CombineComponents(&$components, $edge) {
+        $vertices = $edge->GetVertices();
+        $minComponentVertex = $components[$vertices[0]] < $components[$vertices[1]] ? 0 : 1;
+        $minComponent = $components[$vertices[$minComponentVertex]];
+        $maxComponent = $components[$vertices[$minComponentVertex ? 0 : 1]];
+
+        for ($c = 0; $c < count($components); $c++) {
+            if ($components[$c] == $maxComponent) {
+                $components[$c] = $minComponent;
+            }
+        }
     }
 }
