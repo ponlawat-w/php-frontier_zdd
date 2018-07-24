@@ -85,6 +85,27 @@ class BinaryNode {
     }
 
     /**
+     * @param bool $terminalTrueOnly
+     * @param BinaryNode[] $currentPath
+     */
+    public function RecursivePrintPaths(&$count = 0, $terminalTrueOnly = true, $currentPath = []) {
+        if (is_null($this->Children[0]) && is_null($this->Children[1])) {
+            if (!$terminalTrueOnly || ($terminalTrueOnly && $this->IsTerminal && $this->Value)) {
+                $count++;
+                echo $this->IsTerminal ? new DecisionPath($currentPath, $this) : new DecisionPath(array_merge($currentPath, [$this]));
+                echo PHP_EOL;
+            }
+            return;
+        }
+        if ($this->Children[0]) {
+            $this->Children[0]->RecursivePrintPaths($count, $terminalTrueOnly, $currentPath);
+        }
+        if ($this->Children[1]) {
+            $this->Children[1]->RecursivePrintPaths($count, $terminalTrueOnly, array_merge($currentPath, [$this]));
+        }
+    }
+
+    /**
      * @return string
      */
     public function __toString() {

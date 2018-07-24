@@ -6,16 +6,8 @@ $g->AddEdge(0, 1, 'p')->AddEdge(1, 3, 'q')->AddEdge(1, 2, 'r')->AddEdge(0, 2, 's
 
 $zdd = new FrontierZdd($g);
 $tree = $zdd->GenerateTree();
-
 $count = 0;
-$paths = $tree->GetPaths();
-foreach ($paths as $path) {
-    if (!$path->Terminal || !$path->Terminal->Value) {
-        continue;
-    }
-    echo $path . PHP_EOL;
-    $count++;
-}
+$tree->PrintPaths($count);
 echo "Total: {$count} ways" . PHP_EOL;
 echo '-----' . PHP_EOL;
 
@@ -23,14 +15,16 @@ echo '-----' . PHP_EOL;
 $grid = Grid::Create(4);
 $gridZdd = new FrontierZdd($grid);
 $gridTree = $gridZdd->GenerateTree();
-
 $count = 0;
-$gridPaths = $gridTree->GetPaths();
-foreach ($gridPaths as $path) {
-    if (!$path->Terminal || !$path->Terminal->Value) {
-        continue;
-    }
-    echo $path . PHP_EOL;
-    $count++;
-}
+$gridTree->PrintPaths($count);
 echo "Total: {$count} ways" . PHP_EOL;
+
+unset($g, $zdd, $tree, $grid, $gridZdd, $gridTree, $count);
+
+// // Grid 5x5
+// $grid = Grid::Create(5);
+// $gridZdd = new FrontierZdd($grid);
+// $gridTree = $gridZdd->GenerateTree();
+// $count = 0;
+// $gridTree->PrintPaths($count);
+// echo "Total: {$count} ways" . PHP_EOL;

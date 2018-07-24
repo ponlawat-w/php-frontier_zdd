@@ -24,4 +24,16 @@ class BinaryTree {
 
         return $paths;
     }
+
+    /**
+     * @param int $count
+     * @param bool $terminalTrueOnly
+     */
+    public function PrintPaths(&$count, $terminalTrueOnly = true) {
+        if (!$this->RootNode) {
+            return;
+        }
+
+        $this->RootNode->RecursivePrintPaths($count, $terminalTrueOnly);
+    }
 }
