@@ -19,6 +19,7 @@ foreach ($paths as $path) {
 echo "Total: {$count} ways" . PHP_EOL;
 
 echo '-----' . PHP_EOL;
+readline();
 
 // Grid 4x4
 $grid = Grid::Create(4);

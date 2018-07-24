@@ -61,26 +61,6 @@ class FZddNode extends BinaryNode {
     }
     
     /**
-     * Recursively go deeper and deeper until the given level
-     * push the node in corresponding level into the array
-     * @param int $level
-     * @param FZddNode[] $array
-     * @param int $currentLevel
-     */
-    public function FindNodesInLevel($level, &$array, $currentLevel = 0) {
-        if ($currentLevel < $level) {
-            foreach ([0, 1] as $childValue) {
-                $child = $this->GetChild($childValue);
-                if ($child && $child instanceof FZddNode) {
-                    $child->FindNodesInLevel($level, $array, $currentLevel + 1);
-                }
-            }
-        } else if ($currentLevel == $level) {
-            $array[] = $this;
-        }
-    }
-
-    /**
      * Create root node from graph (based on first edge)
      * @param Graph $graph
      * @return FZddNode

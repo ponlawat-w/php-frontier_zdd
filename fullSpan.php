@@ -16,9 +16,10 @@ foreach ($paths as $path) {
 }
 
 echo '-----' . PHP_EOL;
+readline();
 
-// Grid 4x4
-$grid = Grid::Create(4);
+// Grid 3x3
+$grid = Grid::Create(3);
 $gridFullSpan = new FullSpanBinaryTree($grid);
 $gridTree = $gridFullSpan->GenerateTree();
 $gridPaths = $gridTree->GetPaths();

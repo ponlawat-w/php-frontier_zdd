@@ -17,6 +17,9 @@ class FrontierZdd {
     /** @var BinaryNode $TerminalFalse */
     private $TerminalFalse;
 
+    /** @var FZddNode[][] $NodeLevels */
+    private $NodeLevels;
+
     /**
      * Constructor
      * @param Graph $graph
@@ -30,6 +33,8 @@ class FrontierZdd {
 
         $this->TerminalFalse = new BinaryNode(false, true);
         $this->TerminalTrue = new BinaryNode(true, true);
+
+        $this->NodeLevels = [];
 
         $this->GenerateFrontiers();
     }
@@ -107,6 +112,7 @@ class FrontierZdd {
             $this->Traverse($tree, $tree->RootNode);
         } else {
             foreach ([false, true] as $useThis) {
+                echo "Current: {$index} ({$node->Value}) => " . ($useThis ? '1' : '0') . "\r";
                 $terminalStatus = $this->CheckTerminal($node, $useThis, $index);
                 if (is_null($terminalStatus) && $index + 1 < count($this->Graph->Edges)) {
                     // Path is not complete
@@ -116,7 +122,7 @@ class FrontierZdd {
                     if ($useThis) {
                         $this->UpdateAfterAddEdge($tempNode, $this->Graph->Edges[$index + 1]->GetVertices());
                     }
-                    $equivalentNode = $tree->FindEquivalentNode($tempNode, $index + 1, $this->Frontiers[$index + 2]);
+                    $equivalentNode = $this->FindEquivalentNode($tempNode, $index + 1, $this->Frontiers[$index + 2]);
                     if ($equivalentNode) {
                         // Equivalent node (of frontiers) exists, and must be pointed from current node
                         $node->SetChild($useThis ? 1 : 0, $equivalentNode);
@@ -131,7 +137,33 @@ class FrontierZdd {
             }
         }
 
+        if (!isset($this->NodeLevels[$index])) {
+            $this->NodeLevels[$index] = [];
+        }
+        $this->NodeLevels[$index][] = $node;
+
         return $node;
+    }
+
+    /**
+     * Find equivalent node, return null if the node does not exist
+     * @param FZddNode $node
+     * @param int $index
+     * @param int[] $frontierVertices
+     * @return FZddNode|null
+     */
+    private function FindEquivalentNode($node, $index, &$frontierVertices) {
+        if (!isset($this->NodeLevels[$index])) {
+            return null;
+        }
+
+        foreach ($this->NodeLevels[$index] as $sameLevelNode) {
+            if ($sameLevelNode->IsEquivalent($node, $frontierVertices)) {
+                return $sameLevelNode;
+            }
+        }
+
+        return null;
     }
 
     /**

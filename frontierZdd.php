@@ -7,24 +7,33 @@ $g->AddEdge(0, 1, 'p')->AddEdge(1, 3, 'q')->AddEdge(1, 2, 'r')->AddEdge(0, 2, 's
 $zdd = new FrontierZdd($g);
 $tree = $zdd->GenerateTree();
 $count = 0;
+echo PHP_EOL;
 $tree->PrintPaths($count);
 echo "Total: {$count} ways" . PHP_EOL;
 echo '-----' . PHP_EOL;
+readline();
 
-// Grid 4x4
+// Grid 4x4 vertices (3x3 edges)
 $grid = Grid::Create(4);
 $gridZdd = new FrontierZdd($grid);
 $gridTree = $gridZdd->GenerateTree();
 $count = 0;
+echo PHP_EOL;
 $gridTree->PrintPaths($count);
 echo "Total: {$count} ways" . PHP_EOL;
+echo '-----' . PHP_EOL;
+readline();
 
 unset($g, $zdd, $tree, $grid, $gridZdd, $gridTree, $count);
 
-// // Grid 5x5
-// $grid = Grid::Create(5);
-// $gridZdd = new FrontierZdd($grid);
-// $gridTree = $gridZdd->GenerateTree();
-// $count = 0;
-// $gridTree->PrintPaths($count);
-// echo "Total: {$count} ways" . PHP_EOL;
+// Grid 5x5 vertices (4x4 edges)
+$grid = Grid::Create(5);
+$gridZdd = new FrontierZdd($grid);
+$gridTree = $gridZdd->GenerateTree();
+$count = 0;
+echo PHP_EOL;
+$gridTree->PrintPaths($count);
+echo "Total: {$count} ways" . PHP_EOL;
+echo '-----' . PHP_EOL;
+
+unset($grid, $gridZdd, $gridTree, $count);
