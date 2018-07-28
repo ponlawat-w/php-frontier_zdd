@@ -1,24 +1,10 @@
 <?php
 
-class FrontierZdd {
-    /** @var Graph $Graph */
-    public $Graph;
-
+class FrontierZdd extends FrontierPath {
     /** @var int $Origin */
     public $Origin;
     /** @var int $Destination */
     public $Destination;
-
-    /** @var int[][] $Frontiers */
-    private $Frontiers;
-
-    /** @var BinaryNode $TerminalTrue */
-    private $TerminalTrue;
-    /** @var BinaryNode $TerminalFalse */
-    private $TerminalFalse;
-
-    /** @var FZddNode[][] $NodeLevels */
-    private $NodeLevels;
 
     /**
      * Constructor
@@ -41,54 +27,15 @@ class FrontierZdd {
 
     /**
      * Generate binary decision tree for all available paths from Origin to Destination
-     * @return FZddTree
+     * @return FrontierTree
      * @throws
      */
     public function GenerateTree() {
-        $rootNode = FZddNode::CreateRootNode($this->Graph);
-        $tree = new FZddTree($rootNode);
+        $rootNode = FrontierNode::CreateRootNode($this->Graph);
+        $tree = new FrontierTree($rootNode);
         $this->Traverse($tree);
 
         return $tree;
-    }
-
-    /**
-     * Generate frontiers set for all edges
-     */
-    private function GenerateFrontiers() {
-        $this->Frontiers = [[]];
-
-        for ($e = 0; $e < count($this->Graph->Edges); $e++) {
-            $this->Frontiers[$e + 1] = $this->Frontiers[$e];
-            $currentFrontier = &$this->Frontiers[$e + 1];
-            $edge = $this->Graph->Edges[$e];
-            foreach ($edge->GetVertices() as $v) {
-                if (!in_array($v, $currentFrontier)) {
-                    $currentFrontier[] = $v;
-                }
-
-                if (!$this->VertexIsUsedInFuture($v, $e)) {
-                    $vertexIndexInCurrentFrontier = array_search($v, $currentFrontier);
-                    array_splice($currentFrontier, $vertexIndexInCurrentFrontier, 1);
-                }
-            }
-        }
-    }
-
-    /**
-     * Check if given vertex connects to edge that will be considered in next edges
-     * @param int $vertex
-     * @param int $presentEdgeIndex
-     * @return bool
-     */
-    private function VertexIsUsedInFuture($vertex, $presentEdgeIndex) {
-        for ($e = $presentEdgeIndex + 1; $e < count($this->Graph->Edges); $e++) {
-            if ($this->Graph->Edges[$e]->Connects($vertex)) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -101,10 +48,10 @@ class FrontierZdd {
 
     /**
      * Traverse given node in tree on specified index
-     * @param FZddTree $tree
-     * @param FZddNode $node
+     * @param FrontierTree $tree
+     * @param FrontierNode $node
      * @param int $index
-     * @return FZddNode
+     * @return FrontierNode
      */
     private function Traverse($tree, $node = null, $index = 0) {
         if (!$node && $tree->RootNode) {
@@ -146,44 +93,11 @@ class FrontierZdd {
     }
 
     /**
-     * Find equivalent node, return null if the node does not exist
-     * @param FZddNode $node
-     * @param int $index
-     * @param int[] $frontierVertices
-     * @return FZddNode|null
-     */
-    private function FindEquivalentNode($node, $index, &$frontierVertices) {
-        if (!isset($this->NodeLevels[$index])) {
-            return null;
-        }
-
-        foreach ($this->NodeLevels[$index] as $sameLevelNode) {
-            if ($sameLevelNode->IsEquivalent($node, $frontierVertices)) {
-                return $sameLevelNode;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Update degrees and components on given node if specified edge vertices are chosen
-     * @param FZddNode $node
-     * @param int[] $edgeVertices
-     */
-    private function UpdateAfterAddEdge($node, $edgeVertices) {
-        foreach ($edgeVertices as $v) {
-            $node->Degrees[$v]++;
-        }
-        $node->CombineComponents($edgeVertices);
-    }
-
-    /**
      * Check if current node performs successful path or not
      * Returns true when origin vertex completely connects with destination vertex
      * Returns false when it is impossible to create any successful path from this state
      * Returns null when the path is not complete and must be considered for more edges
-     * @param FZddNode $node
+     * @param FrontierNode $node
      * @param bool $useThis
      * @param int $edgeIndex
      * @return bool|null

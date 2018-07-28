@@ -29,7 +29,7 @@ class BinaryTree {
      * @param int $count
      * @param bool $terminalTrueOnly
      */
-    public function PrintPaths(&$count, $terminalTrueOnly = true) {
+    public function PrintPaths(&$count = 0, $terminalTrueOnly = true) {
         if (!$this->RootNode) {
             return;
         }

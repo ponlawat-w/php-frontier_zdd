@@ -35,5 +35,14 @@ echo PHP_EOL;
 $gridTree->PrintPaths($count);
 echo "Total: {$count} ways" . PHP_EOL;
 echo '-----' . PHP_EOL;
+readline();
 
 unset($grid, $gridZdd, $gridTree, $count);
+$grid = Grid::Create(6);
+$gridZdd = new FrontierZdd($grid);
+$gridTree = $gridZdd->GenerateTree();
+$count = 0;
+echo PHP_EOL;
+$gridTree->PrintPaths($count);
+echo "Total: {$count} ways" . PHP_EOL;
+echo '-----' . PHP_EOL;

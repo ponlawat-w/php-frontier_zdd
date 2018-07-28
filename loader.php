@@ -11,6 +11,8 @@ require_once(__DIR__ . '/classes/fullSpan/FullSpanBinaryTree.php');
 
 require_once(__DIR__ . '/classes/simpleZdd/SimpleZdd.php');
 
-require_once(__DIR__ . '/classes/frontierZdd/FrontierZdd.php');
-require_once(__DIR__ . '/classes/frontierZdd/FZddTree.php');
-require_once(__DIR__ . '/classes/frontierZdd/FZddNode.php');
+require_once(__DIR__ . '/classes/frontier/FrontierPath.php');
+require_once(__DIR__ . '/classes/frontier/FrontierTree.php');
+require_once(__DIR__ . '/classes/frontier/FrontierNode.php');
+require_once(__DIR__ . '/classes/frontier/zdd/FrontierZdd.php');
+require_once(__DIR__ . '/classes/frontier/hamilton/FrontierHamilton.php');

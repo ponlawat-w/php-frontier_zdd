@@ -1,6 +1,6 @@
 <?php
 
-class FZddNode extends BinaryNode {
+class FrontierNode extends BinaryNode {
     /** @var int[] $Degrees */
     public $Degrees;
     /** @var int[] $Components */
@@ -8,10 +8,10 @@ class FZddNode extends BinaryNode {
 
     /**
      * Clone method
-     * @return FZddNode
+     * @return FrontierNode
      */
     public function __clone() {
-        $node = new FZddNode($this->Value, $this->IsTerminal);
+        $node = new FrontierNode($this->Value, $this->IsTerminal);
         $node->Degrees = $this->Degrees;
         $node->Components = $this->Components;
         return $node;
@@ -20,10 +20,10 @@ class FZddNode extends BinaryNode {
     /**
      * Fork child with new value but keep degrees and components
      * @param mixed $childVale
-     * @return FZddNode
+     * @return FrontierNode
      */
     public function ForkChild($childValue) {
-        $node = new FZddNode($childValue, $this->IsTerminal);
+        $node = new FrontierNode($childValue, $this->IsTerminal);
         $node->Degrees = $this->Degrees;
         $node->Components = $this->Components;
         return $node;
@@ -46,7 +46,7 @@ class FZddNode extends BinaryNode {
 
     /**
      * Check if current node is equivalent to given node on specified frontier vertices
-     * @param FZddNode $node
+     * @param FrontierNode $node
      * @param int[] $frontierVertices
      * @return bool
      */
@@ -63,13 +63,13 @@ class FZddNode extends BinaryNode {
     /**
      * Create root node from graph (based on first edge)
      * @param Graph $graph
-     * @return FZddNode
+     * @return FrontierNode
      */
     public static function CreateRootNode($graph) {
         if (!count($graph->Edges)) {
             throw new Exception('Graph conatins no edges!');
         }
-        $rootNode = new FZddNode($graph->Edges[0]);
+        $rootNode = new FrontierNode($graph->Edges[0]);
         $rootNode->Degrees = [];
         $rootNode->Components = [];
 
