@@ -36,12 +36,11 @@ class FrontierNode extends BinaryNode {
     public function CombineComponents($edgeVertices) {
         $minComponent = min($this->Components[$edgeVertices[0]], $this->Components[$edgeVertices[1]]);
         $maxComponent = max($this->Components[$edgeVertices[0]], $this->Components[$edgeVertices[1]]);
-        foreach ($this->Components as &$component) {
+        foreach ($this->Components as $index => $component) {
             if ($component == $maxComponent) {
-                $component = $minComponent;
+                $this->Components[$index] = $minComponent;
             }
         }
-        unset($component);
     }
 
     /**
@@ -50,7 +49,7 @@ class FrontierNode extends BinaryNode {
      * @param int[] $frontierVertices
      * @return bool
      */
-    public function IsEquivalent($node, &$frontierVertices) {
+    public function IsEquivalent($node, $frontierVertices) {
         foreach ($frontierVertices as $vertex) {
             if ($this->Degrees[$vertex] != $node->Degrees[$vertex] || $this->Components[$vertex] != $node->Components[$vertex]) {
                 return false;

@@ -125,7 +125,7 @@ class SimpleZdd {
      * @param Edge $newEdge
      * @return bool
      */
-    private function CausesLoop(&$components, $newEdge) {
+    private function CausesLoop($components, $newEdge) {
         $vertices = $newEdge->GetVertices();
         if ($components[$vertices[0]] == $components[$vertices[1]]) {
             return true;

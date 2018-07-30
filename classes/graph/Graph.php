@@ -62,7 +62,7 @@ class Graph {
      * @param Edge[] $activeEdges
      * @return int
      */
-    public static function GetDegree($vertex, &$activeEdges) {
+    public static function GetDegree($vertex, $activeEdges) {
         $vertex = (int)$vertex;
 
         $degree = 0;

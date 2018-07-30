@@ -60,7 +60,7 @@ abstract class FrontierPath {
      * @param int[] $frontierVertices
      * @return FZddNode|null
      */
-    protected function FindEquivalentNode($node, $index, &$frontierVertices) {
+    protected function FindEquivalentNode($node, $index, $frontierVertices) {
         if (!isset($this->NodeLevels[$index])) {
             return null;
         }

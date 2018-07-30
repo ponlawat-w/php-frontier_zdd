@@ -66,9 +66,9 @@ class BinaryNode {
 
     /**
      * @param array[] &$paths
-     * @param array &$temp
+     * @param array $temp
      */
-    public function RecursivePath(&$paths, &$temp = []) {
+    public function RecursivePath(&$paths, $temp = []) {
         if (is_null($this->Children[0]) && is_null($this->Children[1])) {
             $path = $this->IsTerminal ? new DecisionPath($temp, $this) : new DecisionPath(array_merge($temp, [$this]));
             $paths[] = $path;

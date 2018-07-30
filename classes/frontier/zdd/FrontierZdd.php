@@ -51,15 +51,23 @@ class FrontierZdd extends FrontierPath {
      * @param FrontierTree $tree
      * @param FrontierNode $node
      * @param int $index
+     * @param int $state
      * @return FrontierNode
      */
-    private function Traverse($tree, $node = null, $index = 0) {
+    private function Traverse($tree, $node = null, $index = 0, $state = 0) {
         if (!$node && $tree->RootNode) {
             // Start traverse from root Node
             $this->Traverse($tree, $tree->RootNode);
         } else {
             foreach ([false, true] as $useThis) {
-                echo "Current: {$index} ({$node->Value}) => " . ($useThis ? '1' : '0') . "\r";
+                if (count($this->Graph->Edges) < 65) {
+                    $b = $useThis ? 1 : 0;
+                    $b <<= count($this->Graph->Edges) - $index - 1;
+                    $thisState = $state | $b;
+                    echo '>' . sprintf('%' . count($this->Graph->Edges) . 's', decbin($thisState)) . "\r";
+                } else {
+                    echo "Current: {$index} ({$node->Value}) => " . ($useThis ? '1' : '0') . "\r";
+                }
                 $terminalStatus = $this->CheckTerminal($node, $useThis, $index);
                 if (is_null($terminalStatus) && $index + 1 < count($this->Graph->Edges)) {
                     // Path is not complete
@@ -75,7 +83,7 @@ class FrontierZdd extends FrontierPath {
                         $node->SetChild($useThis ? 1 : 0, $equivalentNode);
                     } else {
                         // Traverse normally in deeper level
-                        $node->SetChild($useThis ? 1 : 0, $this->Traverse($tree, $childNode, $index + 1));
+                        $node->SetChild($useThis ? 1 : 0, $this->Traverse($tree, $childNode, $index + 1, $thisState));
                     }
                 } else {
                     // Path is complete whether successfull or not, point current node to corresponding terminal node
@@ -138,19 +146,21 @@ class FrontierZdd extends FrontierPath {
             }
         }
 
-        for ($v = 0; $v < $this->Graph->Vertices; $v++) {
-            if ($this->IsOriginDestination($v)) {
-                if ($node->Degrees[$v] != 1) {
-                    // Path is not finish because degrees of origin and destination is not 1
-                    return null;
-                }
-            } else if ($node->Degrees[$v] != 0 && $node->Degrees[$v] != 2) {
-                // Path is not finish when any vertex except origin and destination contains degree 1
-                return null;
-            }
-        }
+        return $edgeIndex < count($this->Graph->Edges) - 1 ? null : true;
 
-        // All cases are cleared, path is successful
-        return true;
+        // for ($v = 0; $v < $this->Graph->Vertices; $v++) {
+        //     if ($this->IsOriginDestination($v)) {
+        //         if ($node->Degrees[$v] != 1) {
+        //             // Path is not finish because degrees of origin and destination is not 1
+        //             return null;
+        //         }
+        //     } else if ($node->Degrees[$v] != 0 && $node->Degrees[$v] != 2) {
+        //         // Path is not finish when any vertex except origin and destination contains degree 1
+        //         return null;
+        //     }
+        // }
+
+        // // All cases are cleared, path is successful
+        // return true;
     }
 }

@@ -47,3 +47,14 @@ $count = 0;
 echo PHP_EOL;
 $tree->PrintPaths($count);
 echo "Total: {$count} ways" . PHP_EOL;
+echo '-----' . PHP_EOL;
+
+readline();
+
+$grid = Grid::Create(8);
+$frontierHamilton = new FrontierHamilton($grid);
+$tree = $frontierHamilton->GenerateTree();
+$count = 0;
+echo PHP_EOL;
+$tree->PrintPaths($count);
+echo "Total: {$count} ways" . PHP_EOL;

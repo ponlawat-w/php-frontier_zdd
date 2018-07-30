@@ -63,7 +63,7 @@ class Edge {
      * @param Edge[] $edges
      * @return bool
      */
-    public static function IsInSet($vertex, &$edges) {
+    public static function IsInSet($vertex, $edges) {
         foreach ($edges as $edge) {
             foreach ($edge->GetVertices() as $v) {
                 if ($v == $vertex) {
